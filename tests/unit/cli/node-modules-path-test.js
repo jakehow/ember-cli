@@ -23,15 +23,17 @@ describe('cli/node-module-path.js', function() {
 
   it('nodeModulesPath() should return subdirectories of EMBER_NODE_PATH when set to an absolute path.', function() {
     if (process.platform === 'win32') {
-      process.env.EMBER_NODE_PATH = 'C:\tmp';
-      expect(nodeModulesPath(process.cwd())).to.equal('C:\tmp\node_modules');
-      expect(nodeModulesPath('C:\tmp\node_modules\my-add-on')).to.equal('C:\tmp\node_modules\my-add-on\node_modules');
+      process.env.EMBER_NODE_PATH = 'C:\\tmp';
     }
     else {
       process.env.EMBER_NODE_PATH = '/tmp';
-      expect(nodeModulesPath(process.cwd())).to.equal('/tmp/node_modules');
-      expect(nodeModulesPath('/tmp/node_modules/my-add-on')).to.equal('/tmp/node_modules/my-add-on/node_modules');
     }
+
+    expect(nodeModulesPath(process.cwd())).to.equal(path.resolve(process.env.EMBER_NODE_PATH,'node_modules'));
+
+    var addOnPath = path.resolve(process.env.EMBER_NODE_PATH, 'node_modules', 'my-add-on');
+    var addOnModulesPath = path.resolve(process.env.EMBER_NODE_PATH, 'node_modules', 'my-add-on', 'node_modules');
+    expect(nodeModulesPath(addOnPath)).to.equal(addOnModulesPath);
   });
 
   it('nodeModulesPath() should return subdirectories of EMBER_NODE_PATH when set to a relative path.', function() {
