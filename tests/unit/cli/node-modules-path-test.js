@@ -24,8 +24,7 @@ describe('cli/node-module-path.js', function() {
   it('nodeModulesPath() should return subdirectories of EMBER_NODE_PATH when set to an absolute path.', function() {
     if (process.platform === 'win32') {
       process.env.EMBER_NODE_PATH = 'C:\\tmp';
-    }
-    else {
+    } else {
       process.env.EMBER_NODE_PATH = '/tmp';
     }
 
